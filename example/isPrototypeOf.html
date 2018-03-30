@@ -1,0 +1,45 @@
+<script src="../tinytest.js"></script>
+<script src="isPrototypeOf.js"></script>
+
+
+<script>
+
+var object1={};
+var object2=Object.create(object1);
+var object3=Object.create(object2);
+
+tests({
+  'it should return a boolean ': function() {
+  var result =isPrototypeOf({}, object1);
+  eq(typeof result, "boolean")
+  },
+
+  'Object.getPrototypeOf(object2) should be detected in the prototype chain of object 2 ': function() {
+ var proto = Object.getPrototypeOf(object2) ;
+  var result =isPrototypeOf(proto, object2);
+  eq(result, true)
+  },
+
+  'it should detect an object prototype anywhere in the chain': function() {
+
+  var result =isPrototypeOf(object1, object3);
+  eq(result, true)
+  },
+
+  'it should detect Object.prototype in the chain': function() {
+
+  var result =isPrototypeOf(Object.prototype, object3);
+  eq(result, true)
+  },
+
+  'it should throw a typeerror if object tested is undefined or null ': function() {
+    try {
+      isPrototypeOf(null, object3)
+    }
+    catch(e) {
+      eq(e.name, 'TypeError')
+    }
+
+  },
+});
+</script>
